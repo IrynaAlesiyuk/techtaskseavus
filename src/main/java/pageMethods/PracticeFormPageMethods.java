@@ -1,7 +1,7 @@
 package pageMethods;
 
 
-import core.constants.Gender;
+import core.constants.GenderType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.JavascriptExecutor;
@@ -9,7 +9,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.support.PageFactory;
 import pages.PracticeFormPage;
-import pages.SubmittedFormPage;
 
 
 public class PracticeFormPageMethods extends PracticeFormPage {
@@ -22,7 +21,7 @@ public class PracticeFormPageMethods extends PracticeFormPage {
     }
 
 
-    public SubmittedFormPageMethods fillObligatoryFieldsAndSubmitForm(String firstName, String lastName, Gender gender, String phoneNumber, WebDriver driver) {
+    public SubmittedFormPageMethods fillObligatoryFieldsAndSubmitForm(String firstName, String lastName, GenderType gender, String phoneNumber, WebDriver driver) {
         LOGGER.info("Fill in obligatory fields");
         fillInFirstName(firstName);
         fillInSecondName(lastName);
@@ -43,16 +42,12 @@ public class PracticeFormPageMethods extends PracticeFormPage {
         lastNameField.sendKeys(lastName);
     }
 
-    private void selectGender(Gender gender, WebDriver driver) {
+    private void selectGender(GenderType gender, WebDriver driver) {
         LOGGER.info("Select gender=" + gender);
         switch (gender) {
             case MALE:
-                try {
-                    genderMaleRadioBtn.click();
-                } catch (WebDriverException e) {
-                    JavascriptExecutor executor = (JavascriptExecutor) driver;
-                    executor.executeScript("arguments[0].click()", genderMaleRadioBtn);
-                }
+                JavascriptExecutor executor = (JavascriptExecutor) driver;
+                executor.executeScript("arguments[0].click()", genderMaleRadioBtn);
                 break;
             case FEMALE:
                 genderFemaleRadioBtn.click();
@@ -71,12 +66,8 @@ public class PracticeFormPageMethods extends PracticeFormPage {
 
     private SubmittedFormPageMethods clickSubmitBtn(WebDriver driver) {
         LOGGER.info("Click 'Submit' button");
-        try {
-            submitBtn.click();
-        } catch (WebDriverException e) {
-            JavascriptExecutor executor = (JavascriptExecutor) driver;
-            executor.executeScript("arguments[0].click()", submitBtn);
-        }
+        JavascriptExecutor executor = (JavascriptExecutor) driver;
+        executor.executeScript("arguments[0].click()", submitBtn);
         return new SubmittedFormPageMethods(driver);
     }
 
